@@ -1,0 +1,72 @@
+{    
+    "configurations": [
+        {
+            "name": "Emulator - debug mode - w/ debugger",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--device-user=0"
+            ],
+            "flutterMode": "debug",
+            "deviceId": "sdk gphone64",
+        },
+        {
+            "name": "Emulator - debug mode - w/out debugger",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--device-user=0"
+            ],
+            "flutterMode": "debug",
+            "deviceId": "sdk gphone64",
+            "noDebug": true,
+        },
+        {
+            "name": "Pixel - debug mode - w/ debugger",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--device-user=0"
+            ],
+            "flutterMode": "debug",
+            "deviceId": "a6b43082",
+        },
+        {
+            "name": "Physical - debug mode - w/out debugger",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--device-user=0"
+            ],
+            "flutterMode": "debug",
+            "deviceId": "pixel",
+            "noDebug": true,
+        },
+        {
+            "name": "Pixel - profile mode",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--device-user=0"
+            ],
+            "flutterMode": "profile",
+            "deviceId": "pixel",
+        },
+        {
+            "name": "Pixel - release mode",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--device-user=0"
+            ],
+            "flutterMode": "release",
+            "deviceId": "pixel"
+        },
+    ],
+}
