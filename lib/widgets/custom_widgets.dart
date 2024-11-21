@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:music/native_player.dart';
-import 'package:music/ui/player.dart';
+import 'package:music/pages/song_list.dart';
+import 'package:music/services/audio_service.dart';
+import 'package:provider/provider.dart';
 
-import '../main.dart';
+import '../models/song.dart';
 
 class DirectoryEntry extends StatelessWidget {
   final Directory dir;
@@ -20,7 +21,7 @@ class DirectoryEntry extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => HomePage(path: dir.path),
+            builder: (context) => SongList(dirPath: dir.path),
           ),
         );
       },
@@ -28,42 +29,37 @@ class DirectoryEntry extends StatelessWidget {
   }
 }
 
-class FileEntry extends StatelessWidget {
-  final File file;
-  final bool splitName;
+class SongEntry extends StatelessWidget {
+  final Song song;
 
-  const FileEntry({super.key, required this.file, this.splitName = false});
+  const SongEntry({super.key, required this.song});
 
   @override
   Widget build(BuildContext context) {
-    final fileName = file.path.split('/').last;
-    final title =
-        splitName ? fileName.split(' - ').skip(1).join(' - ') : fileName;
-
     return ListTile(
       leading: const Icon(Icons.music_note_sharp),
-      title: Text(title),
+      title: Text(song.displayName),
       onTap: () {
-        NativeAudioPlayer.playAudio(file.path);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => PlayerPage(path: file.path),
-          ),
-        );
+        final mediaProvider = Provider.of<AudioService>(context, listen: false);
+        mediaProvider.play(song.file);
       },
     );
   }
 }
 
 class ArtistSongList extends StatelessWidget {
-  final List<File> songs;
+  final List<Song> songs;
 
-  const ArtistSongList({super.key, required this.songs});
+  ArtistSongList({super.key, required this.songs}) {
+    for (var song in songs) {
+      song.displayName = song.fileName.split(' - ').skip(1).join(' - ');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final artist = songs.first.path.split('/').last.split(' - ').first.toUpperCase();
+    final artist = songs.first.artist;
+
     return ExpansionTile(
       leading: const Icon(Icons.library_music_sharp),
       dense: true,
@@ -80,7 +76,7 @@ class ArtistSongList extends StatelessWidget {
       children: songs.map((song) {
         return Padding(
           padding: const EdgeInsets.only(left: 20.0),
-          child: FileEntry(file: song, splitName: true),
+          child: SongEntry(song: song),
         );
       }).toList(),
     );

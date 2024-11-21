@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:music/native_player.dart';
+import 'package:music/services/android_player.dart';
 
 class PlayerPage extends StatelessWidget {
   final String path;
